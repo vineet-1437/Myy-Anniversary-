@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Oeshikha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Nunito:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ffcccc;
+            --bg-color: #ffe6e6;
+            --glass: rgba(255, 255, 255, 0.8);
+            --text-main: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #d6336c;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Countdown Styles */
+        .timer {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #333;
+            background: rgba(255,255,255,0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* Locked State */
+        .locked-overlay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .lock-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Unlocked Content (Hidden by default) */
+        .hidden-content {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        
+        .hidden-content p {
+            margin-bottom: 15px;
+        }
+
+        .open-btn {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .open-btn:hover {
+            background-color: #ff4757;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            animation: float 6s linear infinite;
+            bottom: -10vh;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .signature {
+            color: white;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        <h1>For Oeshikha</h1>
+
+        <div class="card" id="card1">
+            <div class="card-title">✨ The Night You Said Yes</div>
+            
+            <div id="lock1" class="locked-overlay">
+                <div class="lock-icon">🔒</div>
+                <div>Unlocks on Feb 9th</div>
+                <div class="timer" id="timer1">Loading...</div>
+            </div>
+
+            <div id="content1" class="hidden-content">
+                <div id="text-insert-1"></div>
+            </div>
+            <button id="btn1" class="open-btn" style="display:none;" onclick="toggleCard(1)">Read My Letter ❤️</button>
+        </div>
+
+        <div class="card" id="card2">
+            <div class="card-title">🌹 My Valentine Promise</div>
+            
+            <div id="lock2" class="locked-overlay">
+                <div class="lock-icon">🔒</div>
+                <div>Unlocks on Feb 14th</div>
+                <div class="timer" id="timer2">Loading...</div>
+            </div>
+
+            <div id="content2" class="hidden-content">
+                <div id="text-insert-2"></div>
+            </div>
+            <button id="btn2" class="open-btn" style="display:none;" onclick="toggleCard(2)">Open Surprise 💌</button>
+        </div>
+
+        <div class="signature">Forever yours, Oeshikha ka Ghulam</div>
+    </div>
+
+    <script>
+        /* ==========================================
+           ❤️ CONFIGURATION SECTION (EDIT THIS!) ❤️
+           ========================================== */
+        
+        // 1. SET THE DATES (Format: "Month Day, Year Time")
+        // Note: Change 2026 to the current year if needed.
+        const date1_Target = new Date("February 9, 2026 21:00:00").getTime(); // Feb 9 at 9:00 PM
+        const date2_Target = new Date("February 14, 2026 12:00:00").getTime(); // Feb 14 at 12:00 PM (Noon)
+
+        // 2. PASTE YOUR LETTERS HERE (Keep them inside the backticks ``)
+        const letter1_Text = `
+            <p><strong>My Dearest Oeshikha,</strong></p>
+            <p>I still remember this night exactly. The moment you accepted us, everything changed for me. It wasn't just a 'yes' to a relationship; it was a 'yes' to a lifetime of memories.</p>
+            <p>You didn't just accept me; you accepted my quirks, my flaws, and my love. Being your boyfriend is the greatest honor of my life.</p>
+            <p>Happy 1st Anniversary of the night it all began.</p>
+        `;
+
+        const letter2_Text = `
+            <p><strong>To My Valentine,</strong></p>
+            <p>We've made it to the day of love. I wanted to write this to promise you that I will always be your safe place.</p>
+            <p>Just like I joke about being "Oeshikha ka Ghulam," the truth is, I am a slave to your smile. If you're happy, I'm happy. That's the only rule I follow.</p>
+            <p>I love you more than code can explain.</p>
+        `;
+
+        /* ==========================================
+           ⚙️ LOGIC SECTION (NO NEED TO TOUCH)
+           ========================================== */
+        
+        // Inject Text
+        document.getElementById('text-insert-1').innerHTML = letter1_Text;
+        document.getElementById('text-insert-2').innerHTML = letter2_Text;
+
+        function updateTimers() {
+            const now = new Date().getTime();
+
+            checkLock(1, date1_Target, now);
+            checkLock(2, date2_Target, now);
+        }
+
+        function checkLock(id, targetDate, now) {
+            const distance = targetDate - now;
+            
+            if (distance < 0) {
+                // Time is up! Unlock it.
+                document.getElementById(`lock${id}`).style.display = "none";
+                document.getElementById(`btn${id}`).style.display = "inline-block";
+                document.getElementById(`timer${id}`).innerHTML = "Unlocked!";
+            } else {
+                // Still locked, update timer
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById(`timer${id}`).innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        function toggleCard(id) {
+            const content = document.getElementById(`content${id}`);
+            const btn = document.getElementById(`btn${id}`);
+            if (content.style.display === "block") {
+                content.style.display = "none";
+                btn.innerText = (id === 1) ? "Read My Letter ❤️" : "Open Surprise 💌";
+            } else {
+                content.style.display = "block";
+                btn.innerText = "Close";
+            }
+        }
+
+        // Run timer immediately and then every second
+        updateTimers();
+        setInterval(updateTimers, 1000);
+
+        // Heart Animation Generator
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            document.getElementById('hearts-container').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 500);
+
+    </script>
+</body>
+</html>
